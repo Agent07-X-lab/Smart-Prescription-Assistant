@@ -3,14 +3,20 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { LanguageProvider } from './contexts/LanguageContext';
+import { ElderlyModeProvider } from './contexts/ElderlyModeContext';
+import { DarkModeProvider } from './contexts/DarkModeContext';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <LanguageProvider>
-      <App />
-    </LanguageProvider>
+    <DarkModeProvider>
+      <LanguageProvider>
+        <ElderlyModeProvider>
+          <App />
+        </ElderlyModeProvider>
+      </LanguageProvider>
+    </DarkModeProvider>
   </React.StrictMode>
 );
 

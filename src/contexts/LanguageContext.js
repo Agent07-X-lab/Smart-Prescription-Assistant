@@ -11,6 +11,7 @@ export function LanguageProvider({ children }) {
     te: "Telugu",
     ta: "Tamil",
     mr: "Marathi",
+    or: "Odia",
   };
 
   const getLanguageName = (code) => {
@@ -24,6 +25,7 @@ export function LanguageProvider({ children }) {
       te: "te-IN",
       ta: "ta-IN",
       mr: "mr-IN",
+      or: "or-IN",
     };
     return langMap[code] || "en-US";
   };

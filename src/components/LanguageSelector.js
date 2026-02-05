@@ -21,6 +21,7 @@ function LanguageSelector() {
         <option value="te">Telugu</option>
         <option value="ta">Tamil</option>
         <option value="mr">Marathi</option>
+        <option value="or">Odia</option>
       </select>
     </div>
   );

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { getPatientInfo, getMedicines, getDietPlan } from "../data/mockDatabase";
 
 function UploadPrescription({ setData }) {
   const [isDragging, setIsDragging] = useState(false);
@@ -8,19 +9,36 @@ function UploadPrescription({ setData }) {
     if (!file) return;
     setFileName(file.name);
 
-    // TEMPORARY MOCK DATA (until backend is ready)
+    // Use mock database data (simulating backend response)
+    const patientInfo = getPatientInfo();
+    const medicines = getMedicines();
+    const dietPlan = getDietPlan();
+
     const mockResponse = {
-      patient: { name: "Rahul Sharma", age: 45, condition: "Diabetes" },
-      medicines: [
-        { name: "Metformin", dosage: "500mg", time: "Morning" },
-        { name: "Insulin", dosage: "10 units", time: "Night" },
-      ],
+      patient: {
+        name: patientInfo.name,
+        age: patientInfo.age,
+        condition: patientInfo.condition,
+        gender: patientInfo.gender,
+        bloodGroup: patientInfo.bloodGroup
+      },
+      medicines: medicines.map(med => ({
+        name: med.name,
+        dosage: med.dosage,
+        time: med.time,
+        frequency: med.frequency,
+        duration: med.duration,
+        instructions: med.instructions
+      })),
       diet: {
-        eat: ["Green vegetables", "Whole grains", "Fruits"],
-        avoid: ["Sugar", "Fried food", "Soft drinks"],
+        eat: dietPlan.eat,
+        avoid: dietPlan.avoid,
+        mealPlan: dietPlan.mealPlan,
+        tips: dietPlan.tips
       },
     };
 
+    // Simulate processing delay
     setTimeout(() => setData(mockResponse), 1000);
   };
 
