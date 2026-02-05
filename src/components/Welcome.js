@@ -7,7 +7,7 @@ export default function Welcome({ onStart }) {
       <div className="welcome-content">
         <div className="welcome-icon">🏥</div>
         <h1>Your Digital Healthcare Assistant</h1>
-        <p>Book appointments, view doctors and track your medical history</p>
+        <p>Upload prescriptions, track medicines, and get personalized health guidance</p>
         <button onClick={onStart} className="welcome-button">
           Get Started
         </button>

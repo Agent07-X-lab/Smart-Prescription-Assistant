@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Welcome from "./components/Welcome";
 import Home from "./components/Home";
 import Assistant from "./components/Assistant";
+import CameraPrescriptionScan from "./components/CameraPrescriptionScan";
+import Reminders from "./components/Reminders";
 import UploadPrescription from "./components/UploadPrescription";
 import PatientInfo from "./components/PatientInfo";
 import MedicineSchedule from "./components/MedicineSchedule";
@@ -30,6 +32,19 @@ function App() {
 
   if (screen === "assistant") {
     return <Assistant onBack={() => navigateTo("home")} />;
+  }
+
+  if (screen === "camera-scan") {
+    return (
+      <CameraPrescriptionScan
+        setData={handlePrescriptionData}
+        onBack={() => navigateTo("home")}
+      />
+    );
+  }
+
+  if (screen === "reminders") {
+    return <Reminders onBack={() => navigateTo("home")} />;
   }
 
   if (screen === "prescription") {
@@ -114,6 +129,7 @@ function App() {
       <div className="container">
         <Home
           goToAssistant={() => navigateTo("assistant")}
+          goToCameraScan={() => navigateTo("camera-scan")}
           goToPrescription={() => navigateTo("prescription")}
           goToMedicines={() => {
             if (data) {
@@ -129,6 +145,7 @@ function App() {
               navigateTo("prescription");
             }
           }}
+          goToReminders={() => navigateTo("reminders")}
         />
       </div>
     </>

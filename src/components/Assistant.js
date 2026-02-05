@@ -21,6 +21,16 @@ export default function Assistant({ onBack }) {
     scrollToBottom();
   }, [messages]);
 
+  const speakText = (text) => {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      const speech = new SpeechSynthesisUtterance(text);
+      speech.lang = getSpeechRecognitionLang(language);
+      speech.rate = 0.9;
+      speech.pitch = 1;
+      window.speechSynthesis.speak(speech);
+    }
+  };
+
   const sendMessage = () => {
     if (!input.trim()) return;
 
@@ -35,6 +45,8 @@ export default function Assistant({ onBack }) {
         text: "Thanks! I'll analyze that for you. Remember to consult your doctor before making any changes to your medication."
       };
       setMessages(prev => [...prev, botResponse]);
+      // Auto voice reply
+      speakText(botResponse.text);
     }, 1000);
   };
 
