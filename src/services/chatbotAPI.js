@@ -158,9 +158,11 @@ export const getGreeting = (language = "en") => {
   return greetings[language] || greetings.en;
 };
 
-export default {
+const chatbotAPI = {
   getBotReply,
   getGreeting,
   predefinedAnswers,
   keywordMap
 };
+
+export default chatbotAPI;
