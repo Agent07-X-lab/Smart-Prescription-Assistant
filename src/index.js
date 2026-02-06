@@ -1,0 +1,26 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import { LanguageProvider } from './contexts/LanguageContext';
+import { ElderlyModeProvider } from './contexts/ElderlyModeContext';
+import { DarkModeProvider } from './contexts/DarkModeContext';
+import reportWebVitals from './reportWebVitals';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <DarkModeProvider>
+      <LanguageProvider>
+        <ElderlyModeProvider>
+          <App />
+        </ElderlyModeProvider>
+      </LanguageProvider>
+    </DarkModeProvider>
+  </React.StrictMode>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
