@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { getPatientInfo, getMedicines } from "../data/mockDatabase";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 function HealthRiskAlerts({ medicines: propMedicines, condition: propCondition }) {
+  const { t, language } = useContext(LanguageContext);
   // Use mock database data if props not provided
   const patientInfo = getPatientInfo();
-  const medicines = propMedicines || getMedicines();
+  const medicines = propMedicines || getMedicines(language);
   const condition = propCondition || patientInfo.condition;
 
   // Mock AI logic for health risk detection using mock database
@@ -14,7 +16,7 @@ function HealthRiskAlerts({ medicines: propMedicines, condition: propCondition }
     if (condition?.toLowerCase().includes("diabetes")) {
       alerts.push({
         type: "warning",
-        icon: "⚠️",
+        icon: "",
         title: "High Blood Sugar Risk",
         message: "Monitor your blood sugar levels regularly while taking these medications. Check fasting and post-meal levels daily.",
       });
@@ -79,7 +81,7 @@ function HealthRiskAlerts({ medicines: propMedicines, condition: propCondition }
 
   return (
     <div className="card health-risk-card">
-      <h2>⚠️ Health Risk Insights</h2>
+      <h2>{t("health_risk_alerts")}</h2>
       <div className="risk-alerts-list">
         {alerts.map((alert, index) => (
           <div key={index} className={`risk-alert risk-alert-${alert.type}`}>

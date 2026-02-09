@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { getMedicines } from "../data/mockDatabase";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 function DrugInteractionWarning({ medicines: propMedicines }) {
+  const { t, language } = useContext(LanguageContext);
   // Use mock database medicines if prop not provided
-  const medicines = propMedicines || getMedicines();
+  const medicines = propMedicines || getMedicines(language);
 
   // Mock drug interaction detection using mock database
   const checkInteractions = () => {
@@ -82,7 +84,7 @@ function DrugInteractionWarning({ medicines: propMedicines }) {
 
   return (
     <div className="card drug-interaction-card">
-      <h2>⚠️ Possible Drug Interaction</h2>
+      <h2>{t("drug_interactions")}</h2>
       {interactions.map((interaction, index) => (
         <div key={index} className={`interaction-alert interaction-${interaction.severity}`}>
           <div className="interaction-medicines">
@@ -93,11 +95,11 @@ function DrugInteractionWarning({ medicines: propMedicines }) {
           <p className="interaction-message">{interaction.message}</p>
           {interaction.recommendation && (
             <p className="interaction-recommendation">
-              <strong>💡 Recommendation:</strong> {interaction.recommendation}
+              <strong>Recommendation:</strong> {interaction.recommendation}
             </p>
           )}
           <div className="interaction-action">
-            <strong>⚠️ Consult your doctor before taking these together</strong>
+            <strong>Consult your doctor before taking these together</strong>
           </div>
         </div>
       ))}

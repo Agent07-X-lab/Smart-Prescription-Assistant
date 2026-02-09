@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
 
 export default function VoiceInput({ setInputText, language = "en-US" }) {
+  const { t } = useContext(LanguageContext);
   const [isListening, setIsListening] = useState(false);
   const [recognition, setRecognition] = useState(null);
 
@@ -78,7 +80,7 @@ export default function VoiceInput({ setInputText, language = "en-US" }) {
       title={isListening ? "Stop listening" : "Start voice input"}
       type="button"
     >
-      {isListening ? "⏸️" : "🎤"}
+      {isListening ? "" : ""}
     </button>
   );
 }

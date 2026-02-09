@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 function CameraPrescriptionScan({ setData, onBack }) {
+  const { t } = useContext(LanguageContext);
   const [imagePreview, setImagePreview] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -37,18 +39,18 @@ function CameraPrescriptionScan({ setData, onBack }) {
     <div className="camera-scan-screen">
       <div className="card">
         <div className="camera-header">
-          <button onClick={onBack} className="back-button-header">← Back</button>
-          <h2>📷 Scan Prescription</h2>
+          <button onClick={onBack} className="back-button-header">{t("back")}</button>
+          <h2>{t("camera_scan")}</h2>
         </div>
 
         {!imagePreview ? (
           <div className="camera-upload-area">
-            <div className="camera-icon">📷</div>
+            <div className="camera-icon"></div>
             <p className="camera-instructions">
               Position your prescription clearly in the camera view
             </p>
             <label htmlFor="camera-input" className="camera-button">
-              📸 Open Camera
+              Open Camera
             </label>
             <input
               id="camera-input"
@@ -68,13 +70,13 @@ function CameraPrescriptionScan({ setData, onBack }) {
             {isProcessing ? (
               <div className="processing-container">
                 <div className="loading-spinner"></div>
-                <p className="processing-text">Processing prescription...</p>
+                <p className="processing-text">{t("scanning")}</p>
                 <p className="processing-subtext">Analyzing medicines and dosage</p>
               </div>
             ) : (
               <div className="success-message">
-                <div className="success-icon">✅</div>
-                <p>Prescription analyzed successfully!</p>
+                <div className="success-icon"></div>
+                <p>{t("scan_complete")}</p>
               </div>
             )}
           </div>

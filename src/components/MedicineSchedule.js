@@ -1,32 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 function MedicineSchedule({ medicines }) {
+  const { t } = useContext(LanguageContext);
+  
   if (!medicines || medicines.length === 0) {
     return (
       <div className="card">
-        <h2>💊 Medicine Schedule</h2>
-        <p>No medicines scheduled.</p>
+        <h2>{t("medicine_schedule_title")}</h2>
+        <p>{t("no_medicines")}</p>
       </div>
     );
   }
 
-  const getTimeIcon = (time) => {
-    const timeLower = time.toLowerCase();
-    if (timeLower.includes("morning")) return "☀️";
-    if (timeLower.includes("afternoon") || timeLower.includes("noon")) return "🌤️";
-    if (timeLower.includes("night") || timeLower.includes("evening")) return "🌙";
-    return "💊";
-  };
-
   return (
     <div className="card">
-      <h2>💊 Medicine Schedule</h2>
+      <h2>{t("medicine_schedule_title")}</h2>
       <table>
         <thead>
           <tr>
-            <th>Medicine Name</th>
+            <th>{t("name")}</th>
             <th>Dosage</th>
-            <th>Time</th>
+            <th>{t("time")}</th>
             {medicines.some(m => m.frequency) && <th>Frequency</th>}
             {medicines.some(m => m.duration) && <th>Duration</th>}
           </tr>
@@ -46,9 +41,7 @@ function MedicineSchedule({ medicines }) {
                 <span className="dosage-badge">{med.dosage}</span>
               </td>
               <td>
-                <span className="time-badge">
-                  {getTimeIcon(med.time)} {med.time}
-                </span>
+                <span className="time-badge">{med.time}</span>
               </td>
               {medicines.some(m => m.frequency) && (
                 <td>{med.frequency || "-"}</td>

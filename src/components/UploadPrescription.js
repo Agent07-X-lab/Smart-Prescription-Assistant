@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { getPatientInfo, getMedicines, getDietPlan } from "../data/mockDatabase";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 function UploadPrescription({ setData }) {
+  const { t } = useContext(LanguageContext);
   const [isDragging, setIsDragging] = useState(false);
   const [fileName, setFileName] = useState(null);
 
@@ -65,18 +67,18 @@ function UploadPrescription({ setData }) {
 
   return (
     <div className="card">
-      <h2>📄 Upload Prescription</h2>
+      <h2>{t("upload_prescription_title")}</h2>
       <div
         className={`upload-area ${isDragging ? "dragging" : ""}`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
-        <div className="upload-icon">☁️</div>
+        <div className="upload-icon"></div>
         <p className="upload-text">
           {fileName ? (
             <>
-              <strong>✓ {fileName}</strong>
+              <strong>{fileName}</strong>
               <br />
               <span style={{ fontSize: "0.9rem", color: "var(--text-secondary)" }}>
                 Processing...

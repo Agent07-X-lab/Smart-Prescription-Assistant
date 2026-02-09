@@ -1,4 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { LanguageContext } from "./contexts/LanguageContext";
+import { ElderlyModeContext } from "./contexts/ElderlyModeContext";
+import { getMedicines } from "./data/mockDatabase";
+import logo from "./assets/logo.svg";
 import Welcome from "./components/Welcome";
 import Home from "./components/Home";
 import Assistant from "./components/Assistant";
@@ -6,6 +10,7 @@ import CameraPrescriptionScan from "./components/CameraPrescriptionScan";
 import Reminders from "./components/Reminders";
 import HealthDashboard from "./components/HealthDashboard";
 import HealthLocker from "./components/HealthLocker";
+import HealthPrediction from "./components/HealthPrediction";
 import VoiceOnlyMode from "./components/VoiceOnlyMode";
 import UploadPrescription from "./components/UploadPrescription";
 import PatientInfo from "./components/PatientInfo";
@@ -14,18 +19,30 @@ import DietPlan from "./components/DietPlan";
 import HealthRiskAlerts from "./components/HealthRiskAlerts";
 import DrugInteractionWarning from "./components/DrugInteractionWarning";
 import ShareWithDoctor from "./components/ShareWithDoctor";
+import DoctorAppointment from "./components/DoctorAppointment";
 import LanguageSelector from "./components/LanguageSelector";
 import ElderlyModeToggle from "./components/ElderlyModeToggle";
 import DarkModeToggle from "./components/DarkModeToggle";
 import VoiceButton from "./components/VoiceButton";
-import { ElderlyModeContext } from "./contexts/ElderlyModeContext";
 import "./App.css";
 
 function App() {
   const { elderlyMode } = useContext(ElderlyModeContext);
+  const { language } = useContext(LanguageContext);
   const [screen, setScreen] = useState("welcome");
   const [data, setData] = useState(null);
   const [showShareModal, setShowShareModal] = useState(false);
+
+  // Update medicines when language changes
+  useEffect(() => {
+    if (data && data.medicines) {
+      const translatedMedicines = getMedicines(language);
+      setData(prev => ({
+        ...prev,
+        medicines: translatedMedicines
+      }));
+    }
+  }, [language]);
 
   // Apply elderly mode class to body
   React.useEffect(() => {
@@ -53,67 +70,156 @@ function App() {
     return <Welcome onStart={() => navigateTo("home")} />;
   }
 
+  // Header component for all pages
+  const renderHeader = (title, showBack = false) => (
+    <header className="header">
+      <div className="header-content">
+        {showBack ? (
+          <button onClick={() => navigateTo("home")} className="back-button-header">
+            ← Back
+          </button>
+        ) : (
+          <div className="header-logo">
+            <img src={logo} alt="Sahaay Logo" className="logo-icon" />
+            <h1>Sahaay</h1>
+          </div>
+        )}
+        <div className="header-controls">
+          <div className="toggle-row">
+            <DarkModeToggle />
+            <ElderlyModeToggle />
+          </div>
+          <LanguageSelector />
+        </div>
+      </div>
+    </header>
+  );
+
   if (screen === "assistant") {
-    return <Assistant onBack={() => navigateTo("home")} />;
+    return (
+      <>
+        {renderHeader("AI Assistant", true)}
+        <div className="container">
+          <Assistant onBack={() => navigateTo("home")} />
+        </div>
+      </>
+    );
   }
 
   if (screen === "camera-scan") {
     return (
-      <CameraPrescriptionScan
-        setData={handlePrescriptionData}
-        onBack={() => navigateTo("home")}
-      />
+      <>
+        {renderHeader("Scan Prescription", true)}
+        <div className="container">
+          <CameraPrescriptionScan
+            setData={handlePrescriptionData}
+            onBack={() => navigateTo("home")}
+          />
+        </div>
+      </>
     );
   }
 
   if (screen === "reminders") {
-    return <Reminders onBack={() => navigateTo("home")} />;
+    return (
+      <>
+        {renderHeader("Smart Reminders", true)}
+        <div className="container">
+          <Reminders onBack={() => navigateTo("home")} />
+        </div>
+      </>
+    );
   }
 
   if (screen === "dashboard") {
-    return <HealthDashboard onBack={() => navigateTo("home")} />;
+    return (
+      <>
+        {renderHeader("Health Dashboard", true)}
+        <div className="container">
+          <HealthDashboard onBack={() => navigateTo("home")} />
+        </div>
+      </>
+    );
   }
 
   if (screen === "health-locker") {
-    return <HealthLocker onBack={() => navigateTo("home")} />;
+    return (
+      <>
+        {renderHeader("Health Locker", true)}
+        <div className="container">
+          <HealthLocker onBack={() => navigateTo("home")} />
+        </div>
+      </>
+    );
+  }
+
+  if (screen === "health-prediction") {
+    return (
+      <>
+        {renderHeader("AI Health Prediction", true)}
+        <div className="container">
+          <HealthPrediction onBack={() => navigateTo("home")} />
+        </div>
+      </>
+    );
+  }
+
+  if (screen === "doctor-appointment") {
+    return (
+      <>
+        {renderHeader("Doctor Appointments", true)}
+        <div className="container">
+          <DoctorAppointment onBack={() => navigateTo("home")} />
+        </div>
+      </>
+    );
   }
 
   if (screen === "voice-only") {
-    return <VoiceOnlyMode onBack={() => navigateTo("home")} />;
+    return (
+      <>
+        {renderHeader("Voice Mode", true)}
+        <div className="container">
+          <VoiceOnlyMode onBack={() => navigateTo("home")} />
+        </div>
+      </>
+    );
   }
 
   if (screen === "prescription") {
     return (
       <>
-        <header className="header">
-          <div className="header-content">
-            <button onClick={() => navigateTo("home")} className="back-button-header">
-              ← Home
-            </button>
-            <h1>🏥 Smart Prescription Assistant</h1>
-            <div className="header-controls">
-              <DarkModeToggle />
-              <ElderlyModeToggle />
-              <LanguageSelector />
-            </div>
-          </div>
-        </header>
-
+        {renderHeader("Your Prescription", true)}
         <div className="container">
           <UploadPrescription setData={handlePrescriptionData} />
 
           {data && (
             <div className="fade-in">
               <PatientInfo info={data.patient} />
-              <DrugInteractionWarning medicines={data.medicines} />
+              {/* Only show complex info when NOT in elderly mode */}
+              {!elderlyMode && (
+                <>
+                  <DrugInteractionWarning medicines={data.medicines} />
+                  <HealthRiskAlerts medicines={data.medicines} condition={data.patient?.condition} />
+                  <DietPlan diet={data.diet} />
+                </>
+              )}
+              {/* Always show medicine schedule - this is essential */}
               <MedicineSchedule medicines={data.medicines} />
-              <DietPlan diet={data.diet} />
-              <HealthRiskAlerts medicines={data.medicines} condition={data.patient?.condition} />
+              {/* Show simplified action buttons in elderly mode */}
               <div className="action-buttons-row">
-                <button onClick={() => setShowShareModal(true)} className="share-doctor-button">
-                  📤 Share Report with Doctor
-                </button>
-                <VoiceButton text={JSON.stringify(data)} />
+                {elderlyMode ? (
+                  <button onClick={() => setShowShareModal(true)} className="share-doctor-button">
+                    📤 Share with Doctor
+                  </button>
+                ) : (
+                  <>
+                    <button onClick={() => setShowShareModal(true)} className="share-doctor-button">
+                      📤 Share Report with Doctor
+                    </button>
+                    <VoiceButton text={JSON.stringify(data)} />
+                  </>
+                )}
               </div>
             </div>
           )}
@@ -129,20 +235,7 @@ function App() {
   if (screen === "medicines" && data) {
     return (
       <>
-        <header className="header">
-          <div className="header-content">
-            <button onClick={() => navigateTo("home")} className="back-button-header">
-              ← Home
-            </button>
-            <h1>💊 Medicine Schedule</h1>
-            <div className="header-controls">
-              <DarkModeToggle />
-              <ElderlyModeToggle />
-              <LanguageSelector />
-            </div>
-          </div>
-        </header>
-
+        {renderHeader("Medicine Schedule", true)}
         <div className="container">
           <MedicineSchedule medicines={data.medicines} />
         </div>
@@ -153,20 +246,7 @@ function App() {
   if (screen === "diet" && data) {
     return (
       <>
-        <header className="header">
-          <div className="header-content">
-            <button onClick={() => navigateTo("home")} className="back-button-header">
-              ← Home
-            </button>
-            <h1>🥗 Diet Plan</h1>
-            <div className="header-controls">
-              <DarkModeToggle />
-              <ElderlyModeToggle />
-              <LanguageSelector />
-            </div>
-          </div>
-        </header>
-
+        {renderHeader("Diet Plan", true)}
         <div className="container">
           <DietPlan diet={data.diet} />
         </div>
@@ -179,9 +259,15 @@ function App() {
     <>
       <header className="header">
         <div className="header-content">
-          <h1>🏥 Smart Prescription Assistant</h1>
+          <div className="header-logo">
+            <img src={logo} alt="Sahaay Logo" className="logo-icon" />
+            <h1>Sahaay</h1>
+          </div>
           <div className="header-controls">
-            <ElderlyModeToggle />
+            <div className="toggle-row">
+              <DarkModeToggle />
+              <ElderlyModeToggle />
+            </div>
             <LanguageSelector />
           </div>
         </div>
@@ -210,6 +296,8 @@ function App() {
           goToDashboard={() => navigateTo("dashboard")}
           goToHealthLocker={() => navigateTo("health-locker")}
           goToVoiceOnly={() => navigateTo("voice-only")}
+          goToHealthPrediction={() => navigateTo("health-prediction")}
+          goToDoctorAppointment={() => navigateTo("doctor-appointment")}
         />
       </div>
     </>

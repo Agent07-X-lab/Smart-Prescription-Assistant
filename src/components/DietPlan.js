@@ -1,23 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 function DietPlan({ diet }) {
+  const { t } = useContext(LanguageContext);
+  
   if (!diet) {
     return (
       <div className="card">
-        <h2>🥗 Personalized Diet Plan</h2>
-        <p>No diet plan available.</p>
+        <h2>{t("diet_plan_title")}</h2>
+        <p>{t("no_diet_plan")}</p>
       </div>
     );
   }
 
   return (
     <div className="card">
-      <h2>🥗 Personalized Diet Plan</h2>
+      <h2>{t("diet_plan_title")}</h2>
 
       <div className="diet-section">
-        <h3>
-          <span className="diet-icon eat">✅</span> Foods to Eat
-        </h3>
+        <h3>Foods to Eat</h3>
         <div className="food-list eat-list">
           {diet.eat && diet.eat.map((food) => (
             <div key={food} className="food-item eat-item">
@@ -28,9 +29,7 @@ function DietPlan({ diet }) {
       </div>
 
       <div className="diet-section">
-        <h3>
-          <span className="diet-icon avoid">❌</span> Foods to Avoid
-        </h3>
+        <h3>Foods to Avoid</h3>
         <div className="food-list avoid-list">
           {diet.avoid && diet.avoid.map((food) => (
             <div key={food} className="food-item avoid-item">
@@ -42,21 +41,19 @@ function DietPlan({ diet }) {
 
       {diet.mealPlan && (
         <div className="diet-section">
-          <h3>
-            <span className="diet-icon eat">📋</span> Daily Meal Plan
-          </h3>
+          <h3>Daily Meal Plan</h3>
           <div className="meal-plan-details">
             <div className="meal-item">
-              <strong>🌅 Breakfast:</strong> {diet.mealPlan.breakfast}
+              <strong>{t("breakfast")}:</strong> {diet.mealPlan.breakfast}
             </div>
             <div className="meal-item">
-              <strong>☀️ Lunch:</strong> {diet.mealPlan.lunch}
+              <strong>{t("lunch")}:</strong> {diet.mealPlan.lunch}
             </div>
             <div className="meal-item">
-              <strong>🌙 Dinner:</strong> {diet.mealPlan.dinner}
+              <strong>{t("dinner")}:</strong> {diet.mealPlan.dinner}
             </div>
             <div className="meal-item">
-              <strong>🍎 Snacks:</strong> {diet.mealPlan.snacks}
+              <strong>{t("snack")}:</strong> {diet.mealPlan.snacks}
             </div>
           </div>
         </div>
@@ -64,9 +61,7 @@ function DietPlan({ diet }) {
 
       {diet.tips && diet.tips.length > 0 && (
         <div className="diet-section">
-          <h3>
-            <span className="diet-icon eat">💡</span> Diet Tips
-          </h3>
+          <h3>Diet Tips</h3>
           <ul className="diet-tips-list">
             {diet.tips.map((tip, index) => (
               <li key={index}>{tip}</li>

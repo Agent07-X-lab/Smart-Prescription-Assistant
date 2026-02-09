@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import { DarkModeContext } from "../contexts/DarkModeContext";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 function DarkModeToggle() {
   const { darkMode, setDarkMode } = useContext(DarkModeContext);
+  const { t } = useContext(LanguageContext);
 
   const handleToggle = (e) => {
     const newValue = e.target.checked;
@@ -21,7 +23,7 @@ function DarkModeToggle() {
         <span className="toggle-slider dark-mode-slider"></span>
       </label>
       <span className="toggle-label dark-mode-label">
-        {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+        {darkMode ? "Light Mode" : t("dark_mode")}
       </span>
     </div>
   );

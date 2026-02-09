@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import { ElderlyModeContext } from "../contexts/ElderlyModeContext";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 function ElderlyModeToggle() {
   const { elderlyMode, setElderlyMode } = useContext(ElderlyModeContext);
+  const { t } = useContext(LanguageContext);
 
   return (
     <div className="elderly-mode-toggle">
@@ -14,7 +16,7 @@ function ElderlyModeToggle() {
         />
         <span className="toggle-slider"></span>
       </label>
-      <span className="toggle-label">🧓 Elderly Mode</span>
+      <span className="toggle-label">{t("elderly_mode")}</span>
     </div>
   );
 }

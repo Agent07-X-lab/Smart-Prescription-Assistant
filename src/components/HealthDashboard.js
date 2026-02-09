@@ -14,10 +14,12 @@ import {
   Cell,
 } from "recharts";
 import { DarkModeContext } from "../contexts/DarkModeContext";
+import { LanguageContext } from "../contexts/LanguageContext";
 import { getHealthMetrics } from "../data/mockDatabase";
 
 function HealthDashboard({ onBack }) {
   const { darkMode } = useContext(DarkModeContext);
+  const { t } = useContext(LanguageContext);
   
   // Get data from mock database
   const healthMetrics = getHealthMetrics();
@@ -47,14 +49,14 @@ function HealthDashboard({ onBack }) {
     <div className="health-dashboard-screen">
       <div className="card">
         <div className="dashboard-header">
-          <button onClick={onBack} className="back-button-header">← Back</button>
-          <h2>📊 Personal Health Dashboard</h2>
+          <button onClick={onBack} className="back-button-header">{t("back")}</button>
+          <h2>{t("health_dashboard")}</h2>
         </div>
 
         <div className="dashboard-grid">
           {/* Blood Pressure Chart */}
           <div className="dashboard-card">
-            <h3>🩺 Blood Pressure Trend</h3>
+            <h3>{t("blood_pressure")} Trend</h3>
             <ResponsiveContainer width="100%" height={200}>
               <AreaChart data={bloodPressureData}>
                 <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
@@ -98,7 +100,7 @@ function HealthDashboard({ onBack }) {
 
           {/* Blood Sugar Chart */}
           <div className="dashboard-card">
-            <h3>🩸 Blood Sugar Trend</h3>
+            <h3>Blood Sugar Trend</h3>
             <ResponsiveContainer width="100%" height={200}>
               <LineChart data={bloodSugarData}>
                 <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
@@ -142,7 +144,7 @@ function HealthDashboard({ onBack }) {
 
           {/* Medicine Adherence */}
           <div className="dashboard-card">
-            <h3>💊 Medicine Adherence</h3>
+            <h3>{t("medicine_schedule")} Adherence</h3>
             <div className="pie-chart-container">
               <ResponsiveContainer width="100%" height={180}>
                 <PieChart>
@@ -177,7 +179,7 @@ function HealthDashboard({ onBack }) {
 
           {/* Diet Compliance */}
           <div className="dashboard-card">
-            <h3>🥗 Diet Compliance</h3>
+            <h3>{t("diet_plan_title")} Compliance</h3>
             <div className="pie-chart-container">
               <ResponsiveContainer width="100%" height={180}>
                 <PieChart>

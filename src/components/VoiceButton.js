@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 function VoiceButton({ text }) {
+  const { language, getSpeechRecognitionLang, t } = useContext(LanguageContext);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
   const speak = () => {
@@ -16,7 +18,11 @@ function VoiceButton({ text }) {
     }
 
     setIsSpeaking(true);
-    const speech = new SpeechSynthesisUtterance(text);
+    const cleanedText = text.replace(/[:;]/g, "").replace(/\s+/g, " ").trim();
+    const speech = new SpeechSynthesisUtterance(cleanedText);
+    speech.lang = getSpeechRecognitionLang(language);
+    speech.rate = 0.9;
+    speech.pitch = 1;
     speech.onend = () => setIsSpeaking(false);
     speech.onerror = () => setIsSpeaking(false);
     window.speechSynthesis.speak(speech);
@@ -34,7 +40,7 @@ function VoiceButton({ text }) {
           padding: "14px 24px",
         }}
       >
-        {isSpeaking ? "⏸️ Stop Reading" : "🔊 Listen to Prescription"}
+        {isSpeaking ? t("stop_reading") : t("listen_prescription")}
       </button>
     </div>
   );

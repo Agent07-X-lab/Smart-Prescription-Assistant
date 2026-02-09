@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { getWearableData } from "../data/mockDatabase";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 function WearableDevices() {
+  const { t } = useContext(LanguageContext);
   // Initialize with data from mock database
   const initialData = getWearableData();
   const [deviceData, setDeviceData] = useState({
@@ -29,22 +31,22 @@ function WearableDevices() {
 
   return (
     <div className="card wearable-devices-card">
-      <h2>⌚ Connected Devices</h2>
+      <h2>{t("wearable_devices")}</h2>
       <div className="wearable-grid">
         <div className="wearable-item">
-          <div className="wearable-icon">❤️</div>
+          <div className="wearable-icon"></div>
           <div className="wearable-label">Heart Rate</div>
           <div className="wearable-value">{deviceData.heartRate}</div>
           <div className="wearable-unit">bpm</div>
         </div>
         <div className="wearable-item">
-          <div className="wearable-icon">🩸</div>
+          <div className="wearable-icon"></div>
           <div className="wearable-label">SpO2</div>
           <div className="wearable-value">{deviceData.spO2}</div>
           <div className="wearable-unit">%</div>
         </div>
         <div className="wearable-item">
-          <div className="wearable-icon">🚶</div>
+          <div className="wearable-icon"></div>
           <div className="wearable-label">Steps</div>
           <div className="wearable-value">{deviceData.steps.toLocaleString()}</div>
           <div className="wearable-unit">today</div>
@@ -52,19 +54,19 @@ function WearableDevices() {
       </div>
       <div className="wearable-grid">
         <div className="wearable-item">
-          <div className="wearable-icon">🔥</div>
+          <div className="wearable-icon"></div>
           <div className="wearable-label">Calories</div>
           <div className="wearable-value">{deviceData.calories}</div>
           <div className="wearable-unit">kcal</div>
         </div>
         <div className="wearable-item">
-          <div className="wearable-icon">😴</div>
+          <div className="wearable-icon"></div>
           <div className="wearable-label">Sleep</div>
           <div className="wearable-value">{deviceData.sleepHours}</div>
           <div className="wearable-unit">hours</div>
         </div>
       </div>
-      <p className="wearable-status">📡 Connected to Smart Watch</p>
+      <p className="wearable-status">Connected to Smart Watch</p>
       <p className="wearable-updated">Last updated: {new Date(initialData.lastUpdated).toLocaleTimeString()}</p>
     </div>
   );

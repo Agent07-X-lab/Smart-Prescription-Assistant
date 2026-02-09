@@ -1,4 +1,5 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useContext } from "react";
+import { translations } from "../data/translations";
 
 export const LanguageContext = createContext();
 
@@ -30,6 +31,19 @@ export function LanguageProvider({ children }) {
     return langMap[code] || "en-US";
   };
 
+  // Get translation for a key
+  const t = (key) => {
+    if (translations[key] && translations[key][language]) {
+      return translations[key][language];
+    }
+    // Fallback to English if translation not available
+    if (translations[key] && translations[key]["en"]) {
+      return translations[key]["en"];
+    }
+    // Return the key itself if no translation found
+    return key;
+  };
+
   return (
     <LanguageContext.Provider
       value={{
@@ -37,6 +51,7 @@ export function LanguageProvider({ children }) {
         setLanguage,
         getLanguageName,
         getSpeechRecognitionLang,
+        t,
       }}
     >
       {children}

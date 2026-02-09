@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { getHealthReports } from "../data/mockDatabase";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 function HealthLocker({ onBack }) {
+  const { t } = useContext(LanguageContext);
   // Get health reports from mock database
   const [documents] = useState(getHealthReports());
 
@@ -18,8 +20,8 @@ function HealthLocker({ onBack }) {
     <div className="health-locker-screen">
       <div className="card">
         <div className="locker-header">
-          <button onClick={onBack} className="back-button-header">← Back</button>
-          <h2>📁 Health Locker</h2>
+          <button onClick={onBack} className="back-button-header">{t("back")}</button>
+          <h2>{t("health_locker_title")}</h2>
         </div>
 
         <div className="locker-filters">
@@ -48,15 +50,15 @@ function HealthLocker({ onBack }) {
                   <span>{doc.size}</span>
                 </div>
               </div>
-              <button className="document-action">📥</button>
+              <button className="document-action"></button>
             </div>
           ))}
         </div>
 
         {filteredDocuments.length === 0 && (
           <div className="empty-state">
-            <div className="empty-icon">📂</div>
-            <p>No documents found in this category</p>
+            <div className="empty-icon"></div>
+            <p>{t("no_documents")}</p>
           </div>
         )}
       </div>

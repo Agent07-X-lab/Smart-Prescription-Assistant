@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 function Reminders({ onBack }) {
+  const { t } = useContext(LanguageContext);
   const [reminders, setReminders] = useState([]);
   const [medicineName, setMedicineName] = useState("");
   const [date, setDate] = useState("");
@@ -8,7 +10,7 @@ function Reminders({ onBack }) {
 
   const showNotification = (medicineName) => {
     if ("Notification" in window && Notification.permission === "granted") {
-      new Notification("💊 Medicine Reminder", {
+      new Notification("Medicine Reminder", {
         body: `Time to take your medicine: ${medicineName}`,
         icon: "/favicon.ico",
         badge: "/favicon.ico",
@@ -80,8 +82,8 @@ function Reminders({ onBack }) {
     <div className="reminders-screen">
       <div className="card">
         <div className="reminders-header">
-          <button onClick={onBack} className="back-button-header">← Back</button>
-          <h2>📅 Medicine Reminders</h2>
+          <button onClick={onBack} className="back-button-header">{t("back")}</button>
+          <h2>{t("reminders_title")}</h2>
         </div>
 
         <div className="reminder-form">
@@ -123,7 +125,7 @@ function Reminders({ onBack }) {
           </div>
 
           <button onClick={handleSetReminder} className="set-reminder-button">
-            ⏰ Set Reminder
+            {t("add_reminder")}
           </button>
         </div>
 
@@ -133,7 +135,7 @@ function Reminders({ onBack }) {
             {reminders.map((reminder) => (
               <div key={reminder.id} className="reminder-item">
                 <div className="reminder-content">
-                  <div className="reminder-medicine">💊 {reminder.medicineName}</div>
+                  <div className="reminder-medicine">{reminder.medicineName}</div>
                   <div className="reminder-time">
                     {new Date(`${reminder.date}T${reminder.time}`).toLocaleString()}
                   </div>
@@ -142,7 +144,7 @@ function Reminders({ onBack }) {
                   onClick={() => deleteReminder(reminder.id)}
                   className="delete-reminder-button"
                 >
-                  🗑️
+                  
                 </button>
               </div>
             ))}

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e0f7fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#b2ebf2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ee5a5a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="95" fill="url(#bgGrad)" stroke="#4dd0e1" stroke-width="2"/>
+  
+  <!-- Elderly Person Figure -->
+  <circle cx="100" cy="55" r="22" fill="#26a69a"/>
+  <path d="M75 85 Q75 130 100 130 Q125 130 125 85 L125 70 Q125 55 100 55 Q75 55 75 70 Z" fill="#26a69a"/>
+  
+  <!-- Heart -->
+  <path d="M100 75 C95 70 88 70 85 78 C82 86 100 105 100 105 C100 105 118 86 115 78 C112 70 105 70 100 75" fill="url(#heartGrad)"/>
+  
+  <!-- Arms supporting -->
+  <path d="M70 90 Q60 100 65 115" stroke="#26a69a" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <path d="M130 90 Q140 100 135 115" stroke="#26a69a" stroke-width="6" stroke-linecap="round" fill="none"/>
+  
+  <!-- Text: Sahaay -->
+  <text x="100" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#00695c">Sahaay</text>
+</svg>

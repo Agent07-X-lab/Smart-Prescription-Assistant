@@ -3,7 +3,7 @@ import { LanguageContext } from "../contexts/LanguageContext";
 import { getBotReply, getGreeting } from "../services/chatbotAPI";
 
 function VoiceOnlyMode({ onBack }) {
-  const { language, getSpeechRecognitionLang } = useContext(LanguageContext);
+  const { language, getSpeechRecognitionLang, t } = useContext(LanguageContext);
   const [isListening, setIsListening] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [recognition, setRecognition] = useState(null);
@@ -14,7 +14,9 @@ function VoiceOnlyMode({ onBack }) {
       // Stop any ongoing speech
       window.speechSynthesis.cancel();
       
-      const speech = new SpeechSynthesisUtterance(text);
+      // Remove colons and other symbols that shouldn't be read
+      const cleanedText = text.replace(/[:;]/g, "").replace(/\s+/g, " ").trim();
+      const speech = new SpeechSynthesisUtterance(cleanedText);
       speech.lang = getSpeechRecognitionLang(language);
       speech.rate = 0.9;
       speech.pitch = 1;
@@ -46,7 +48,7 @@ function VoiceOnlyMode({ onBack }) {
       console.error("Error getting bot response:", error);
       const errorResponse = {
         from: "bot",
-        text: "Sorry, I encountered an error. Please try again.",
+        text: t("error_occurred"),
       };
       setConversation((prev) => [...prev, errorResponse]);
       speakText(errorResponse.text);
@@ -106,7 +108,7 @@ function VoiceOnlyMode({ onBack }) {
       setIsListening(true);
       const welcomeMessage = {
         from: "bot",
-        text: getGreeting(language) + " You can speak your health questions now.",
+        text: getGreeting(language) + " " + t("voice_welcome"),
       };
       setConversation([welcomeMessage]);
       speakText(welcomeMessage.text);
@@ -124,8 +126,8 @@ function VoiceOnlyMode({ onBack }) {
     <div className="voice-only-screen">
       <div className="card">
         <div className="voice-only-header">
-          <button onClick={onBack} className="back-button-header">← Back</button>
-          <h2>🎙️ Voice-Only Mode</h2>
+          <button onClick={onBack} className="back-button-header">{t("back")}</button>
+          <h2>🎙️ {t("voice_only_mode")}</h2>
         </div>
 
         <div className="voice-only-content">
@@ -134,19 +136,19 @@ function VoiceOnlyMode({ onBack }) {
               onClick={isListening ? stopListening : startListening}
               className={`voice-button-large ${isListening ? "listening" : ""}`}
             >
-              {isListening ? "⏸️ Stop Listening" : "🎤 Talk to Health Assistant"}
+              {isListening ? "⏸️ " + t("stop_listening") : "🎤 " + t("talk_to_assistant")}
             </button>
             {isListening && (
               <div className="listening-indicator">
                 <div className="pulse-ring"></div>
-                <p>Listening...</p>
+                <p>{t("listening")}</p>
               </div>
             )}
           </div>
 
           {conversation.length > 0 && (
             <div className="voice-conversation">
-              <h3>Conversation</h3>
+              <h3>{t("conversation")}</h3>
               <div className="voice-messages">
                 {conversation.map((msg, index) => (
                   <div

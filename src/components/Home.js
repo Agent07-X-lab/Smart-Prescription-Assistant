@@ -1,6 +1,5 @@
-import React from "react";
-
-import WearableDevices from "./WearableDevices";
+import React, { useContext } from "react";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 export default function Home({ 
   goToAssistant, 
@@ -11,62 +10,152 @@ export default function Home({
   goToReminders,
   goToDashboard,
   goToHealthLocker,
-  goToVoiceOnly
-}) {
+  goToVoiceOnly,
+  goToHealthPrediction,
+  goToDoctorAppointment
+ }) {
+  const { t } = useContext(LanguageContext);
+    
+  const scrollToFeatures = () => {
+    const featuresSection = document.getElementById("features");
+    if (featuresSection) {
+      featuresSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className="home">
-      <h2 className="home-title">Welcome Back 👋</h2>
-      <input 
-        className="search" 
-        placeholder="🔍 Find a doctor or service" 
-        type="text"
-      />
+    <div className="landing-page">
+      {/* Hero Section */}
+      <section className="home-hero">
+        <div className="home-hero-content">
+          <h1 className="home-hero-title">
+            {t("home_hero_title")}
+          </h1>
+          <p className="home-hero-subtitle">
+            {t("home_hero_subtitle")}
+          </p>
+          <div className="home-hero-buttons">
+            <button
+              onClick={goToPrescription}
+              className="home-hero-button primary"
+            >
+              📤 {t("upload_prescription")}
+            </button>
+            <button
+              onClick={scrollToFeatures}
+              className="home-hero-button secondary"
+            >
+              ✨ {t("explore_features")}
+            </button>
+          </div>
+        </div>
+      </section>
 
-      <div className="appointment-card">
-        <h3>📅 Upcoming Appointments</h3>
-        <p>Dr. Darius Kline — Tomorrow 9:30 AM</p>
+      {/* Quick Actions */}
+      <h2 className="home-title">Quick Actions</h2>
+      <div className="quick-actions">
+        <div className="quick-action-card" onClick={goToCameraScan}>
+          <span className="quick-action-icon">📷</span>
+          <span className="quick-action-text">{t("scan_prescription")}</span>
+        </div>
+        <div className="quick-action-card" onClick={goToMedicines}>
+          <span className="quick-action-icon">💊</span>
+          <span className="quick-action-text">{t("medicine_schedule")}</span>
+        </div>
+        <div className="quick-action-card" onClick={goToDiet}>
+          <span className="quick-action-icon">🥗</span>
+          <span className="quick-action-text">{t("diet_plan")}</span>
+        </div>
+        <div className="quick-action-card" onClick={goToReminders}>
+          <span className="quick-action-icon">🔔</span>
+          <span className="quick-action-text">{t("smart_reminders")}</span>
+        </div>
+        <div className="quick-action-card" onClick={goToDashboard}>
+          <span className="quick-action-icon">📊</span>
+          <span className="quick-action-text">{t("health_dashboard")}</span>
+        </div>
+        <div className="quick-action-card" onClick={goToVoiceOnly}>
+          <span className="quick-action-icon">🎤</span>
+          <span className="quick-action-text">{t("voice_assistant")}</span>
+        </div>
+        <div className="quick-action-card" onClick={goToHealthPrediction}>
+          <span className="quick-action-icon">🔮</span>
+          <span className="quick-action-text">AI Health Prediction</span>
+        </div>
       </div>
 
-      <WearableDevices />
+      {/* Features Section */}
+      <section id="features" className="features-section">
+        <h2 className="features-title">
+          {t("powerful_features")}
+        </h2>
 
-      <div className="grid">
-        <div className="mini-card" onClick={goToAssistant}>
-          <div className="mini-card-icon">💬</div>
-          <div className="mini-card-text">AI Assistant</div>
+        <div className="features-grid">
+          <div className="feature-card" onClick={goToAssistant}>
+            <div className="feature-icon">🤖</div>
+            <h3 className="feature-card-title">Health Assistant</h3>
+            <p className="feature-card-desc">
+              Get personalized health analysis and recommendations based on your lifestyle and health metrics.
+            </p>
+          </div>
+
+          <div className="feature-card" onClick={goToDoctorAppointment}>
+            <div className="feature-icon">👨‍⚕️</div>
+            <h3 className="feature-card-title">Doctor Appointments</h3>
+            <p className="feature-card-desc">
+              Book appointments with top specialists, manage your schedule, and get healthcare on your terms.
+            </p>
+          </div>
+
+          <div className="feature-card">
+            <div className="feature-icon">⌚</div>
+            <h3 className="feature-card-title">{t("connected_devices")}</h3>
+            <p className="feature-card-desc">
+              {t("connected_devices_desc")}
+            </p>
+          </div>
+
+          <div className="feature-card" onClick={goToCameraScan}>
+            <div className="feature-icon">📱</div>
+            <h3 className="feature-card-title">{t("scan_prescription")}</h3>
+            <p className="feature-card-desc">
+              {t("scan_prescription_desc")}
+            </p>
+          </div>
+
+          <div className="feature-card" onClick={goToHealthLocker}>
+            <div className="feature-icon">📁</div>
+            <h3 className="feature-card-title">{t("health_locker")}</h3>
+            <p className="feature-card-desc">
+              {t("health_locker_desc")}
+            </p>
+          </div>
+
+          <div className="feature-card" onClick={goToReminders}>
+            <div className="feature-icon">⏰</div>
+            <h3 className="feature-card-title">{t("smart_reminders")}</h3>
+            <p className="feature-card-desc">
+              {t("smart_reminders_desc")}
+            </p>
+          </div>
+
+          <div className="feature-card" onClick={goToVoiceOnly}>
+            <div className="feature-icon">🗣️</div>
+            <h3 className="feature-card-title">{t("voice_assistant")}</h3>
+            <p className="feature-card-desc">
+              {t("voice_assistant_desc")}
+            </p>
+          </div>
+
+          <div className="feature-card" onClick={goToMedicines}>
+            <div className="feature-icon">💊</div>
+            <h3 className="feature-card-title">{t("medicine_schedule")}</h3>
+            <p className="feature-card-desc">
+              {t("medicine_schedule_desc")}
+            </p>
+          </div>
         </div>
-        <div className="mini-card" onClick={goToVoiceOnly}>
-          <div className="mini-card-icon">🎙️</div>
-          <div className="mini-card-text">Voice Only</div>
-        </div>
-        <div className="mini-card" onClick={goToCameraScan}>
-          <div className="mini-card-icon">📷</div>
-          <div className="mini-card-text">Scan Prescription</div>
-        </div>
-        <div className="mini-card" onClick={goToPrescription}>
-          <div className="mini-card-icon">📄</div>
-          <div className="mini-card-text">Upload Prescription</div>
-        </div>
-        <div className="mini-card" onClick={goToMedicines}>
-          <div className="mini-card-icon">💊</div>
-          <div className="mini-card-text">Medicines</div>
-        </div>
-        <div className="mini-card" onClick={goToDiet}>
-          <div className="mini-card-icon">🥗</div>
-          <div className="mini-card-text">Diet Plan</div>
-        </div>
-        <div className="mini-card" onClick={goToReminders}>
-          <div className="mini-card-icon">📅</div>
-          <div className="mini-card-text">Reminders</div>
-        </div>
-        <div className="mini-card" onClick={goToDashboard}>
-          <div className="mini-card-icon">📊</div>
-          <div className="mini-card-text">Dashboard</div>
-        </div>
-        <div className="mini-card" onClick={goToHealthLocker}>
-          <div className="mini-card-icon">📁</div>
-          <div className="mini-card-text">Health Locker</div>
-        </div>
-      </div>
+      </section>
     </div>
   );
 }
